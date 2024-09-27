@@ -4,21 +4,22 @@ import tkinter
 from tkinter import messagebox
 import pandas as pd
 from utils import get_app_dir
+from dataProcess import process_data
 
 def main():
-    app_dir = get_app_dir()
-    
-    # Path to the external file
-    data_file = os.path.join(app_dir, 'data', 'Contract Summary.xlsx')
-    
-    # Check if the file exists
-    if not os.path.isfile(data_file):
-        messagebox.showerror("Error", f"Required file not found: {data_file}")
+    try:
+        process_data()
+    except Exception as e:
+        # Display error message
+        root = tkinter.Tk()
+        root.withdraw()
+        messagebox.showerror("Error", "An error occurred while processing the data. Please check the log file for more information.")
+        # Write error message to log file
+        app_dir = get_app_dir()
+        log_file = os.path.join(app_dir, 'error.log')
+        with open(log_file, 'w') as f:
+            f.write(str(e))
         sys.exit(1)
-    
-    # Read and process the data file
-    df = pd.read_excel(data_file)
-    print(df.head())
     
     # Display completion message
     root = tkinter.Tk()

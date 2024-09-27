@@ -8,6 +8,7 @@ from tqdm import tqdm
 from utils import *
 
 def process_data():
+    print('Processing data...')
     app_dir = get_app_dir()
 
     # Path to the external files
@@ -20,6 +21,11 @@ def process_data():
     rights_fp = os.path.join(app_dir, 'data', 'rights.csv')
     check_file(rights_fp)
     countries_fp = os.path.join(app_dir, 'data', 'countries.csv')
+    check_file(countries_fp)
+    title_metadata_fp = os.path.join(app_dir, 'data', 'Project Data ID.xlsx')
+    check_file(title_metadata_fp)
+    ratings_fp = os.path.join(app_dir, 'data', 'Ratings & Titles.xlsx')
+    check_file(ratings_fp)
 
     rights = pd.read_csv(rights_fp, encoding = 'unicode_escape')
 
@@ -288,9 +294,7 @@ def process_data():
     titles.rename(columns={'title':'name'}, inplace=True)
     titles.rename(columns={'unique_id':'title'}, inplace=True)
 
-    title_metadata = pd.read_excel(
-        '/Users/alejandroleda/Library/CloudStorage/GoogleDrive-alejandroleda@ledafilms.com/My Drive/Ledafilms/Dispos en excel/Files para bajar las Dispos/Project Data ID.xlsx',
-    )
+    title_metadata = pd.read_excel(title_metadata_fp)
     title_metadata.columns = [
         colname.replace(" ","_").replace(".","").lower() for colname in title_metadata.columns
     ]
@@ -301,8 +305,7 @@ def process_data():
 
     titles = titles.set_index('title').join(title_metadata, how='left')
 
-    ratings = pd.read_excel('/Users/alejandroleda/Library/CloudStorage/GoogleDrive-alejandroleda@ledafilms.com/My Drive/Ledafilms/Dispos en excel/Files para bajar las Dispos/Ratings & Titles.xlsx', 
-                            index_col='Unique Identifier')
+    ratings = pd.read_excel(ratings_fp, index_col='Unique Identifier')
     ratings.columns = [
         colname.strip().replace(" ","_").replace(".","").lower() for colname in ratings.columns
     ]
@@ -392,9 +395,7 @@ def process_data():
     ]
     people = pd.DataFrame(talent['talent_full_name'].unique(), columns=['name'])
     people['person'] = np.arange(1, people.shape[0] + 1)
-    people
 
-    # %%
     roles = talent.merge(
         people,
         left_on='talent_full_name',
@@ -405,3 +406,12 @@ def process_data():
     roles.rename(columns={'unique_id': 'title'}, inplace=True)
     roles['row'] = np.arange(1, roles.shape[0] + 1)
 
+    # Save tables to pickle
+    print('Saving data to disk...')
+    open_windows.to_pickle(os.path.join(app_dir, 'data', 'windows.pkl'))
+    contracts.to_pickle(os.path.join(app_dir, 'data', 'contracts.pkl'))
+    countries.to_pickle(os.path.join(app_dir, 'data', 'countries.pkl'))
+    rights.to_pickle(os.path.join(app_dir, 'data', 'rights.pkl'))
+    titles.to_pickle(os.path.join(app_dir, 'data', 'titles.pkl'))
+    people.to_pickle(os.path.join(app_dir, 'data', 'people.pkl'))
+    roles.to_pickle(os.path.join(app_dir, 'data', 'roles.pkl'))
