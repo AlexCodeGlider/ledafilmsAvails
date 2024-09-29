@@ -130,5 +130,8 @@ data/
 # avails directory
 avails/
 
+# output directory
+output/
+
 # notebooks
 *.ipynb

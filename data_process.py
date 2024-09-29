@@ -410,8 +410,6 @@ def process_data():
     print('Saving data to disk...')
     open_windows.to_pickle(os.path.join(app_dir, 'data', 'windows.pkl'))
     contracts.to_pickle(os.path.join(app_dir, 'data', 'contracts.pkl'))
-    countries.to_pickle(os.path.join(app_dir, 'data', 'countries.pkl'))
-    rights.to_pickle(os.path.join(app_dir, 'data', 'rights.pkl'))
     titles.to_pickle(os.path.join(app_dir, 'data', 'titles.pkl'))
     people.to_pickle(os.path.join(app_dir, 'data', 'people.pkl'))
     roles.to_pickle(os.path.join(app_dir, 'data', 'roles.pkl'))
