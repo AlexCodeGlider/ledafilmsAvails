@@ -11,15 +11,13 @@ def main():
     # Display a message box to state that the program is running
     root = tkinter.Tk()
     root.withdraw()
-    messagebox.showinfo("Data Processing", "Data processing is in progress. Please wait...")
+    messagebox.showinfo("Data Processing", "Data processing started. Click OK to continue.")
 
     # Process the data
     try:
         process_data()
         # Display completion message
-        root = tkinter.Tk()
-        root.withdraw()
-        messagebox.showinfo("Task Completed", "Data processing complete! Please wait while Avails are being generated.")
+        print("Data processing complete! Please wait while Avails are being generated.")
     except Exception as e:
         # Display error message
         root = tkinter.Tk()
@@ -49,7 +47,7 @@ def main():
     # Display completion message
     root = tkinter.Tk()
     root.withdraw()
-    messagebox.showinfo("Task Completed", "Data processing complete! All tasks have been successfully executed.")
+    messagebox.showinfo("Task Completed", "Avails processing complete! Check the avails folder for the output files. Click OK to exit.")
 
 if __name__ == '__main__':
     main()
