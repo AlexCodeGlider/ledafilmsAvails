@@ -1,9 +1,5 @@
 import pandas as pd
 import numpy as np
-import openpyxl
-import tkinter
-from tkinter import messagebox
-import json
 from tqdm import tqdm
 from utils import *
 
@@ -27,6 +23,7 @@ def process_data():
     ratings_fp = os.path.join(app_dir, 'data', 'Ratings & Titles.xlsx')
     check_file(ratings_fp)
 
+    # Load data
     rights = pd.read_csv(rights_fp, encoding = 'unicode_escape')
 
     right_groups_map = {}
@@ -355,8 +352,9 @@ def process_data():
 
     # concatenating all the dataframes at once
     open_windows = pd.concat(df_list, axis=0, ignore_index=True)
-
     open_windows['window'] = np.arange(1, open_windows.shape[0] + 1)
+    
+    # Merge dataframes
     open_windows = open_windows.merge(
         contracts[['contract_code', 'contract']], 
         on='contract_code', 
@@ -389,6 +387,7 @@ def process_data():
     open_windows['title_name'] = open_windows['name']
     open_windows.drop('name', axis=1, inplace=True)
 
+    # Create roles table
     talent = talent_df.copy()
     talent.columns = [
         colname.replace(" ","_").lower() for colname in talent.columns
@@ -408,8 +407,13 @@ def process_data():
 
     # Save tables to pickle
     print('Saving data to disk...')
-    open_windows.to_pickle(os.path.join(app_dir, 'data', 'windows.pkl'))
-    contracts.to_pickle(os.path.join(app_dir, 'data', 'contracts.pkl'))
-    titles.to_pickle(os.path.join(app_dir, 'data', 'titles.pkl'))
-    people.to_pickle(os.path.join(app_dir, 'data', 'people.pkl'))
-    roles.to_pickle(os.path.join(app_dir, 'data', 'roles.pkl'))
+
+    # Create an 'data/tables' directory if it does not exist
+    if not os.path.exists(os.path.join(app_dir, 'data', 'tables')):
+        os.makedirs(os.path.join(app_dir, 'data', 'tables'))
+
+    open_windows.to_pickle(os.path.join(app_dir, 'data', 'tables', 'windows.pkl'))
+    contracts.to_pickle(os.path.join(app_dir, 'data', 'tables', 'contracts.pkl'))
+    titles.to_pickle(os.path.join(app_dir, 'data', 'tables', 'titles.pkl'))
+    people.to_pickle(os.path.join(app_dir, 'data', 'tables', 'people.pkl'))
+    roles.to_pickle(os.path.join(app_dir, 'data', 'tables', 'roles.pkl'))

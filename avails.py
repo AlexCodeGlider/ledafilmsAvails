@@ -3,8 +3,6 @@ import numpy as np
 import openpyxl
 from openpyxl import load_workbook
 from openpyxl.styles import Alignment, Font
-from tqdm import tqdm
-import csv
 from utils import *
 import warnings
 
@@ -37,11 +35,11 @@ def avails_process():
     ]
 
     # Load the data
-    windows_df = pd.read_pickle(os.path.join(app_dir, 'data', 'windows.pkl'))
-    contracts = pd.read_pickle(os.path.join(app_dir, 'data', 'contracts.pkl'))
-    titles = pd.read_pickle(os.path.join(app_dir, 'data', 'titles.pkl'))
-    roles = pd.read_pickle(os.path.join(app_dir, 'data', 'roles.pkl'))
-    people = pd.read_pickle(os.path.join(app_dir, 'data', 'people.pkl'))
+    windows_df = pd.read_pickle(os.path.join(app_dir, 'data', 'tables', 'windows.pkl'))
+    contracts = pd.read_pickle(os.path.join(app_dir, 'data', 'tables',  'contracts.pkl'))
+    titles = pd.read_pickle(os.path.join(app_dir, 'data', 'tables', 'titles.pkl'))
+    roles = pd.read_pickle(os.path.join(app_dir, 'data', 'tables', 'roles.pkl'))
+    people = pd.read_pickle(os.path.join(app_dir, 'data', 'tables', 'people.pkl'))
     
     # Filter contracts_df for 'Normal' status
     contracts_filtered = contracts[contracts['status'] == 'Normal']
