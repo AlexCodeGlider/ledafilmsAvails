@@ -476,7 +476,7 @@ def avails_process():
         else:
             col_dict[col] = col.lower()
 
-
+    # Add new columns here
     col_dict['Region'] = 'avails_region'
     col_dict['Rights Group'] = 'group'
     col_dict['First Run / Library'] = 'first_run_status'
@@ -492,6 +492,7 @@ def avails_process():
     col_dict['Website (Trailer)'] = 'website'
     col_dict['Link (full movie)'] = 'link'
     col_dict['Year'] = 'year_completed'
+    col_dict['Music Cue Sheet'] = 'music_cue_sheet'
 
     # Swap the keys and values of col_dict
     col_dict = {v: k for k, v in col_dict.items()}
@@ -611,13 +612,15 @@ def avails_process():
     # sort combined_unstacked by Year in descending order and then by Title in ascending order
     combined_unstacked.sort_values(['Year', 'Title'], ascending=[False, True], inplace=True)
 
-    # rename the 'cast' colunn in combined_unstacked to 'Cast'
+    # Add new columns here
     combined_unstacked.rename(columns={'cast':'Cast'}, inplace=True)
     combined_unstacked.rename(columns={'director':'Director'}, inplace=True)
     combined_unstacked.rename(columns={'rating_usa':'Rating USA'}, inplace=True)
     combined_unstacked.rename(columns={'Acq_expires':'Acq Expires'}, inplace=True)
     combined_unstacked.rename(columns={'country_of_origin':'Country of Origin'}, inplace=True)
+    combined_unstacked.rename(columns={'music_cue_sheet':'Music Cue Sheet'}, inplace=True)
 
+    # Add new columns here
     cols_ordered = [
         'Title',
         'Region',
@@ -662,6 +665,7 @@ def avails_process():
         'Original Language',
         'Dialogue Language',
         'Subtitle Language',
+        'Music Cue Sheet',
         'Rating USA',
         'Website (Trailer)',
         'Link (full movie)',
@@ -894,3 +898,6 @@ def avails_process():
 
     # close the workbook object
     wb3.close()
+
+if __name__ == '__main__':
+    avails_process()

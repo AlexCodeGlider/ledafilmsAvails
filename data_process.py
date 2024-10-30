@@ -417,3 +417,6 @@ def process_data():
     titles.to_pickle(os.path.join(app_dir, 'data', 'tables', 'titles.pkl'))
     people.to_pickle(os.path.join(app_dir, 'data', 'tables', 'people.pkl'))
     roles.to_pickle(os.path.join(app_dir, 'data', 'tables', 'roles.pkl'))
+
+if __name__ == '__main__':
+    process_data()
